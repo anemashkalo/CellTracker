@@ -3,7 +3,9 @@ function [nmask,datatomatch] = getdatatotrack(direc1,pos,chan,arealow,ifile,thre
 ff1 = readAndorDirectory(direc1);
 nucmoviefile = getAndorFileName(ff1,ff1.p(pos),2,0,chan);
 disp(['opened ' nucmoviefile ])
+if ilastikprob == 0
 nmask = readIlastikFile(ifile);
+end
 if ilastikprob == 1
 nmask = readIlastikProbMask(ifile,thresh);
 end

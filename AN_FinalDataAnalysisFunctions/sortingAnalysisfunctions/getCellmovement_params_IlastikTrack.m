@@ -1,4 +1,4 @@
-function [msd,slope_estimate,D,diff_coeff,mean_disp,total_disp,mean_speed,validTracks,MD,mspeed,TP,fit_out] = getCellmovement_params_IlastikTrack(coordintime,delta_t,trackID,x1,paramfile,local_neighbors,toplot2)
+function [msd,slope_estimate,D,diff_coeff,mean_disp,total_disp,mean_speed,validTracks,MD,mspeed,TP,fit_out,totalD] = getCellmovement_params_IlastikTrack(coordintime,delta_t,trackID,x1,paramfile,local_neighbors,toplot2,x2)
 run(paramfile)
 global userParam
 
@@ -16,10 +16,10 @@ total_disp = struct;
 counter = 0;
 clear displacement2
 TP = struct;
+
 for totrack = trackID%
     good_tp= size(coordintime(totrack).dat,1);
-    shortesttrack = good_tp;
-    txy = [];
+        txy = [];
     if ~isempty(coordintime(totrack).dat)
         v = [];
         dispacement = [];
@@ -42,7 +42,7 @@ for totrack = trackID%
                 dt = ((tp2-tp1))*(delta_t/60);% time interval in hours
                 TP(ii).times(jj,1:3) = [tp1 tp2 dt];
                 v(jj,1:2) = [txy(jj,1)*(delta_t/60);  d0/dt];% in micons/hour
-                dispacement(jj,1:2) = [txy(jj,1)*(delta_t/60);  d0];% in micons
+                %dispacement(jj,1:2) = [txy(jj,1)*(delta_t/60);  d0];% in micons
                 dispacement2(jj,1:2) = [jj;  d2];% in micons
             end
             % disp(size(dispacement2(:,2),1));
@@ -52,12 +52,23 @@ for totrack = trackID%
             % average over number of time steps at each lag time
             msd(totrack).dat(ii,2) = ii; % how many delta_t intervals taken as the lag time
             msd(totrack).trace_lengths = (good_tp);
-            if ii == 1
-                mean_disp(totrack).dat = mean(dispacement(:,2));
-                velocity(totrack).v = v;
-                mean_speed(totrack).v = mean(v(:,2));
-                s(totrack).dat= dispacement;
-                total_disp(totrack).dat = (dispacement(end,2)-dispacement(1,2));%/size(dispacement,1)
+            if ii == 1                
+                 dx=(txy(tp2,2)-txy(tp1,2))*userParam.pxtomicron;
+                 dy = (txy(tp2,3)-txy(tp1,3))*userParam.pxtomicron;
+                 %distance traveled by cell center in time from tp1 to tp2
+                 d0 = power((power(dx,2)+power(dy,2)),0.5);% columns 2:3 are xy
+                 dispacement(jj,1:2) = [txy(jj,1)*(delta_t/60);  d0];% in micons
+                 mean_disp(totrack).dat = mean(dispacement(:,2));
+                 velocity(totrack).v = v;
+                 mean_speed(totrack).v = mean(v(1:x2,2));
+                 s(totrack).dat= dispacement;
+                 % total distance travelled by cell btw tp 1 and track end
+                 dx_f=(txy(x2,2)-txy(1,2))*userParam.pxtomicron;
+                 dy_f = (txy(x2,3)-txy(1,3))*userParam.pxtomicron;
+                 %distance traveled by cell center in time from tp1 to x2(track end)
+                 d0_f = power((power(dx_f,2)+power(dy_f,2)),0.5);
+                 total_disp(totrack).dat=d0_f;
+                 %total_disp(totrack).dat = (dispacement(x2,2)-dispacement(1,2));%/size(dispacement,1)
             end
         end
         % for 2D trajectory, MSD = 4Dt;
@@ -120,7 +131,7 @@ end
 validTracks = counter;
 MD  = cat(1,mean_disp.dat);
 mspeed = cat(1,mean_speed.v);
-totalD = cat(1,total_disp.dat);
+totalD =cat(1,total_disp.dat);
 
 
 end

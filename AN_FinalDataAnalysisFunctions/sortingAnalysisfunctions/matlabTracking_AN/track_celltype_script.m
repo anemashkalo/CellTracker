@@ -1,11 +1,11 @@
 % function to track the sorting cells using matlab-written tracking,
 % ilastik only used for segmentation
-direc1 ='C:\Users\Nastya\Desktop\RiceResearch\2017-10-04-REMOTE_WORK\For_MatlabTracking\LiveSorting_MIPgfpS4cellswithCFPdiff';
-ifile = ['C:\Users\Nastya\Desktop\RiceResearch\2017-10-04-REMOTE_WORK\For_MatlabTracking\LiveSorting_MIPgfpS4cellswithCFPdiff\SortingGFPS4cellspluri70to30_MIP_f0000_w0001_Probabilities.h5'];%stmp{end-1}(2:end)
-tr_1 = 1;% first track ID to look at
-tr_end = 250;%85 150size(tracks_t0,2) last track ID to look at, if [], all the trackIDs will be considered
+direc1 ='C:\Users\Nastya\Desktop\RiceResearch\2017-10-04-REMOTE_WORK\2017-07-14-Smad4sorting_maxProjections';
+ifile = ['C:\Users\Nastya\Desktop\RiceResearch\2017-10-04-REMOTE_WORK\2017-07-14-Smad4sorting_maxProjections\SortingGFPS4cellspluri70to30_MIP_f0016_w0001_Probabilities.h5'];%stmp{end-1}(2:end)
+tr_1 = 2;% first track ID to look at
+tr_end = 70;%85 150size(tracks_t0,2) last track ID to look at, if [], all the trackIDs will be considered
 tpt_end = 80; % how many timepoints to track cells for, in frames
-pos = 1;%1
+pos = 17;%1
 chan = 1;% 0 - cfp cells; 1- nuc marker of other cell type
 paramfile = 'C:\Users\Nastya\Desktop\FromGithub\CellTracker\paramFiles\setUserParamTrackSortingAN_20X.m';
 delta_t = 15;%15

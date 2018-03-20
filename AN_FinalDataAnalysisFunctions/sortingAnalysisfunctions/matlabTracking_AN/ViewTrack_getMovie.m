@@ -13,9 +13,9 @@ time = 3;
 if matlabtracking == 1
     time = 5;
     for i=1:size(coordintime,2)
-        if size(coordintime(i).dat,1)>=50
+        %if size(coordintime(i).dat,1)>=50
             vect(i,1) = i;
-        end
+        %end
     end
     vect2 = nonzeros(vect);
 end
@@ -38,7 +38,7 @@ for jj=startpt:endpt% startpt:endpt
     % rawimg = uint8(r{1}{jj});
     % figure(jj),imshow(rawimg,[]);hold on
     rawimg = (r{1}{jj});
-    figure(jj),imshow(rawimg,[500 2000]);hold on
+    figure(jj),imshow(rawimg,[300 2500]);hold on
     % For now plot the rest of cells in the mask (centroids at each tp), to see how the tracking
     % works (not the image, just cel coordinates
     % figure(jj),plot(round(allcellsinimg(:,1)),round(allcellsinimg(:,2)),'kp','LineWidth',1,'Markersize',10,'MarkerFaceColor','b');hold on

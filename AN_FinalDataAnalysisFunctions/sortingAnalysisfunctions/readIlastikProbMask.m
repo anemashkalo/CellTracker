@@ -6,9 +6,9 @@ if ~exist('foreground','var')
 end
 
 immask = h5read(filename, '/exported_data');
-immask2 = squeeze(immask(foreground,:,:,:));
-
+immask2 = squeeze(immask(foreground,:,:,:)); 
 mask = imcomplement(immask2) > thresh;
+
 
 for ii = 1:size(mask,3)
     mask2(:,:,ii) = mask(:,:,ii)';    

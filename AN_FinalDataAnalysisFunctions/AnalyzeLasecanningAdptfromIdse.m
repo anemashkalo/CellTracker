@@ -5,7 +5,8 @@ clear all; %close all;
 %dataDir = '/Users/warmflashlab/Desktop/A_NEMASHKALO_Data_and_stuff/9_LiveCllImaging/2017-01-10-BMP4woSB/nuc2/MIP';%'/Volumes/Seagate Backup Plus Drive/RICE_Research_databackup/BMPwoSB_12hr_20170109_94617 AM';
 %dataDir = '/Users/warmflashlab/Desktop/A_NEMASHKALO_Data_and_stuff/9_LiveCllImaging/2017-02-10-BMP4wellwithSB39hrs';% saved the projections and ilastic output in a diff. dir
 
-dataDir = '/Volumes/TOSHIBAexte/2017-07-14-Smad4sorting_maxProjections';
+%dataDir = '/Volumes/TOSHIBAexte/2017-07-14-Smad4sorting_maxProjections';
+dataDir  = 'E:\allSortingData\2017-07-05-liveSortingMaxProjections_betaCatPluri';%
 
 ff = readAndorDirectory(dataDir);
  %meta = MetadataAndor(dataDir);
@@ -15,8 +16,8 @@ ff = readAndorDirectory(dataDir);
 
 % returned by MetadataAndor on good directory
 % for Laser Scanning data manually fill this structure in:             
-                meta.tPerFile = 178;
-                meta.filename='SortingGFPS4cellspluri70to30_MIP_f%.4d_w%.4d.tif';   %Feb3LSCimgingMIP  Feb10imgingTP8to120MIP Feb10imgingTP1to7MIP
+                meta.tPerFile = 168;
+                meta.filename='SortingBetaCatpluri_MIP_f%.4d_w%.4d.tif';   %Feb3LSCimgingMIP  Feb10imgingTP8to120MIP Feb10imgingTP1to7MIP
 %                     meta.xres= 0.3250;
 %                     meta.yres= 0.3250;
 %                    meta.xSize= 1024;
@@ -26,9 +27,9 @@ ff = readAndorDirectory(dataDir);
             meta.channelNames= {'Confocal 561'  'Confocal 488'};
     meta.excitationWavelength= [];
             meta.channelLabel= [];
-                   meta.nTime= 178;
+                   meta.nTime= 168;
             meta.timeInterval= '15 min';
-              meta.nPositions= 20;
+              meta.nPositions= 18;
           meta.montageOverlap= [];
          meta.montageGridSize= [];
                      meta.XYZ= zeros(16,1);
@@ -78,11 +79,11 @@ opts.cleanupOptions = struct('separateFused', true,...
 %% check that the options are set right
 %dataDir = '/Users/warmflashlab/Desktop/A_NEMASHKALO_Data_and_stuff/9_LiveCllImaging/2017-02-03-BMP4wSB44hrs/LSConfocal20170201bmp4withSB5wells';% saved the projections and ilastic output in a diff. dir
 ff = readAndorDirectory(dataDir);
-pi =11;%11
+pi =2;%11
 % str = getAndorFileName(ff,ff.p(pi),[],0,0);
 % meta.filename  = str(end-32:end);
 P = DynamicPositionAndor(meta, pi);
-time = 3;
+time = 2;
 opts.tMax = time;
 % try out the nuclear cleanup settings on some frame:
 % bla = nuclearCleanup(seg(:,:,time), opts.cleanupOptions);
@@ -98,7 +99,8 @@ cytmask(cat(1,debugInfo.cytCC.PixelIdxList{:}))=true;
 bg = P.cellData(time).background;
 nucl = P.cellData(time).nucLevelAvg;
 cytl = P.cellData(time).cytLevelAvg;
-(nucl-bg)/(cytl - bg)
+(nucl-bg)/(cytl - bg);
+(nucl-bg)
 (nucl)/(cytl);
 im = P.loadImage(dataDir,S4Channel, time);%nucChannel S4Channel
 MIP = max(im,[],3);
@@ -109,13 +111,14 @@ figure,imshow(cat(3, A + 0*bgmask, A + s*nucmask, A + s*cytmask));
 
 
 %% run the analysis on all time points
-time = meta.tPerFile;
+ %meta.tPerFile = 168;
+ time = meta.tPerFile;%
 tic
 positions(meta.nPositions) = DynamicPositionAndor();
-for pi = 1:(meta.nPositions)
+for pi = 2%1:(meta.nPositions)
     positions(pi) = DynamicPositionAndor(meta, pi);
     positions(pi).extractData(dataDir, nucChannel, opts);
     positions(pi).makeTimeTraces();
-    save(fullfile('.','SortingGFPsmad4_esiCFP'), 'positions');
+    save(fullfile('.','Sorting_betaCat_esiCFP'), 'positions');
 end
 toc

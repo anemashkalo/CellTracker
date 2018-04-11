@@ -52,18 +52,7 @@ if step < 2
 %         nIms{ii}=normIm;
     end   
     %-----------------------------------AN
-% %if want to provide separately the background images for each chanel
-% % ff1=readMMdirectory('C_1ngml_pS1');   % dapi, cy5, gfp
-% % wavenames = ff1.chan;
-% % bIms{1} = imread('control_bIms.tif','Index',1); % dapi
-% % bIms{2} = imread('control_bIms.tif','Index',3); %  cy5
-% % bIms{3} = imread('control_bIms.tif','Index',2); %  gfp
-% bIms{1} = uint16(400*ones(2048,2048));
-% %bIms{3} = uint16(2300*ones(2048,2048));%gfp
-% bIms{2} = uint16(220*ones(2048,2048));%cy5
-% for ii=1:3
-% nIms{ii}=ones(size(bIms{1}));
-% end
+
     save([direc filesep outfile],'bIms','nIms','dims');
  end
 
@@ -101,12 +90,12 @@ end
 %colonies
 if step < 6
       
-%     load([direc filesep outfile],'bIms','nIms');
-%     [colonies, peaks]=peaksToColonies([direc filesep outfile]);
-%     plate1=plate(colonies,dims,direc,ff.chan,bIms,nIms, outfile);
-%     plate1.mm = 1;
-%     plate1.si = size(bIms{1});
-%     save([direc filesep outfile],'plate1','peaks','-append');  
+    load([direc filesep outfile],'bIms','nIms');
+    [colonies, peaks]=peaksToColonies([direc filesep outfile]);
+    plate1=plate(colonies,dims,direc,ff.chan,bIms,nIms, outfile);
+    plate1.mm = 1;
+    plate1.si = size(bIms{1});
+    save([direc filesep outfile],'plate1','peaks','-append');  
   
  disp(' no need to Run colony analysis here')
 end 

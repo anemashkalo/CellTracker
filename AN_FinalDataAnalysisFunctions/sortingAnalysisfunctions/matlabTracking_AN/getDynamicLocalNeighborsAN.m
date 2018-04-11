@@ -3,13 +3,14 @@ function [samecell_neighbors,othercell_neighbors,same_neighbor_abs,other_neighbo
 run(paramfile)
 global userParam
 
-for totrack =trackID 
-tpts = size(coordintime(totrack).dat,1);%size(cfpstats,2)
-time = 3;
-if matlabtracking == 1
-    time = 5;
-    tpts = size(coordintime(totrack).dat,1);
-end
+for totrack =trackID
+    tpts = size(coordintime(totrack).dat,1);%size(cfpstats,2)
+    time = 3;
+    if matlabtracking == 1
+        time = 5;
+        tpts = size(coordintime(totrack).dat,1);%size(cfpstats,2)
+        
+    end
 colormap = prism;
 v_2 = struct; % totla velocity at each time point
 v = struct; %
@@ -125,8 +126,10 @@ curr_cell_neighborhood2 = cat(1,fraction_other.frac);%
 same_neighbor_abs = cat(1,fraction_same.abs);
 other_neighbor_abs = cat(1,fraction_other.abs);
 if (toplot == 1)
-% figure(4),scatter(curr_cell_speed,curr_cell_neighborhood2,[],coordintime(totrack).dat(1:end-1,time),'filled','Marker','p');box on;ylabel('Fraction of neighbors of the other cell type');xlabel('cell speed, um/hr');title('Color:time, hr');hold on;colorbar
-% h4 = figure(4);h4.Colormap = jet;ylim([0 1]);%caxis([0 1]);
+ figure(45),plot(coordintime(totrack).dat(1:end-1,time),curr_cell_displ,'-p','MarkerFaceColor',colormap(randi(size(colormap,1)),:));box on;xlabel('Time');ylabel('cell displacement, um');hold on;%title('Color:time, hr');colorbar
+ figure(44),histogram(curr_cell_speed,'binwidth',3,'Normalization','probability','FaceColor',colormap(randi(size(colormap,1)),:));box on;ylabel('Frequency');xlabel('cell speed, um/hr');hold on;%title('Color:time, hr');colorbar
+
+ % h4 = figure(4);h4.Colormap = jet;ylim([0 1]);%caxis([0 1]);
 figure(2),polarscatter(curr_cell_rad(1:x2),curr_cell_speed(1:x2),coordintime(totrack).dat((1:x2),time),curr_cell_neighborhood(1:x2),'filled','MarkerEdgeColor','k');hold on%coordintime(totrack).dat(1:end-1,time)
 figure(3),plot(coordintime(totrack).dat(1:end-1,time),curr_cell_neighborhood,'-kp','MarkerFaceColor',colormap(randi(size(colormap,1)),:),'MarkerSize',10);hold on
 figure(5),scatter(curr_cell_displ(1:x2),curr_cell_neighborhood2(1:x2),[],coordintime(totrack).dat(1:x2,time),'filled','Marker','p');box on;title('Color:Time, frames');ylabel('Fraction of neighbors of the other cell type ');xlabel('Cell displacement,um');hold on;colorbar

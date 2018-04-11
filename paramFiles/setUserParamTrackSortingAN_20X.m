@@ -11,7 +11,7 @@ global userParam;
  userParam.pxtomicron = 0.617284;% epi 20X:0.3125um/pxl; 0.617284 um/pxl on 20X, SDconfocal  ; 0.325000 um/pxl (40x)on SD confocal
  userParam.plottracks = 0;
  userParam.allowedgap = 2;
- userParam.local_sz =57;% 47 in pixels     % size of the cell neighborhood to be considered
+ userParam.local_sz =47;% 47 in pixels     % size of the cell neighborhood to be considered
  userParam.probthresh =0.6;% if the ilasik probability maps are supplied
  
 % userParam.colonygrouping = 90;% for the 40X

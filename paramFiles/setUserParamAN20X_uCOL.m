@@ -68,12 +68,12 @@ userParam.radiusMin = 30; % 30 22
 userParam.radiusMax = 40; %40 37
 userParam.minNucSep = 10;%10
 userParam.nucIntensityRange = 30;   % value depends on radiusMin/Max 
-userParam.nucIntensityLoc  =2000;  % 1000 for the control in the clonal uCOl experiment 
+userParam.nucIntensityLoc  =2000;  %  
 
 
 %Prior parameters for filtering nuclei based on size/shape, etc from AW
 %(Area)
-userParam.nucAreaLo =250; %measure the actual values and decide on this parameter
+userParam.nucAreaLo =200; %measure the actual values and decide on this parameter
 userParam.nucAreaHi = 6000;  % not too big
 
 

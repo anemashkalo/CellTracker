@@ -1,10 +1,7 @@
 direc = 'C:\Users\Nastya\Desktop\RiceResearch\2017-10-04-REMOTE_WORK\2017-07-14-Smad4sorting_maxProjections';% dt = 20 mins 0.617284 um/pxl (20X)
-%direc ='E:\RICE_Research_databackup\gfpS4bmp4woSBtotal27hrs_20170117_54941 PM';%dt = 17 mins  0.325000 um/pxl (40x)
-direc2save ='E:\allSortingData\last80_tp_geneexpression_2017-07-14-S4cfpDataset_sorting';%'C:\Users\Nastya\Desktop\RiceResearch\2017-10-04-REMOTE_WORK\For_MatlabTracking\LiveSorting_MIPgfpS4cellswithCFPdiff';
-%'C:\Users\Nastya\Desktop\RiceResearch\2017-10-04-REMOTE_WORK\For_MatlabTracking\Fucci_andOtherCells_regularCulture';
+direc2save ='E:\allSortingData\last80_tp_geneexpression_2017-07-14-S4cfpDataset_sorting';%80_tp_fortracking_2017-07-14-S4cfpDataset_sorting   last80_tp_geneexpression_2017-07-14-S4cfpDataset_sorting%
 ff = readAndorDirectory(direc);
-%pos = 0;%12,16
-totest = [3 4 5 6 7 8];%[1 2 9 10 11 12 13 14 15 16];
+totest = [3 4 5 6 7 8 17 18 19];%
 tgroup = [];
 chan1 = 2;
 for ii = 1:size(totest,2)
@@ -16,7 +13,7 @@ nT = reader.getSizeT;
 nT = 80;
 
 multitp_nuc = [];
-for time=80:178
+for time=80:178  %1:nT%80:178
     chan = 1;
     for ii = 1:nz
         %time = 3;

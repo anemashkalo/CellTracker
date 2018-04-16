@@ -1,7 +1,7 @@
 %% extract tracks from Ilastik file
 % here fully use Ilastik Automatic tracking 
-pos = 5;%1
-chan = 1;% ff.w(chan): 0 - cfp cells; 1- nuc marker of other cell type
+pos =13;%1
+chan = 2;% ff.w(chan): 0 - cfp cells; 1- nuc marker of other cell type
 paramfile = 'C:\Users\Nastya\Desktop\FromGithub\CellTracker\paramFiles\setUserParamTrackSortingAN_20X.m';
 delta_t = 15;%15
 datadir = 'E:\allSortingData\80_tp_fortracking_2017-07-14-S4cfpDataset_sorting';%80_tp_fortracking_2017-07-14-S4cfpDataset_sorting last80_tp_geneexpression_2017-07-14-S4cfpDataset_sorting
@@ -20,13 +20,13 @@ ilastikprob = 1;
 %global setUserParam 
 direc_untracked ='E:\allSortingData\80_tp_fortracking_2017-07-14-S4cfpDataset_sorting';
 ifile_untracked =...
-'E:\allSortingData\80_tp_fortracking_2017-07-14-S4cfpDataset_sorting\SortingGFPS4cellspluri70to30_MIP_80tpts_MIP_f0004_w0001_Probabilities.h5';%SortingGFPS4cellspluri70to30_MIP_80tpts_MIP_f0012_w0000_Probabilities.h5
-chan_untracked = 1;% 0 - cfp cells; 1- nuc marker of other cell type
+'E:\allSortingData\80_tp_fortracking_2017-07-14-S4cfpDataset_sorting\SortingGFPS4cellspluri70to30_MIP_80tpts_MIP_f0012_w0000_Probabilities.h5';%SortingGFPS4cellspluri70to30_MIP_80tpts_MIP_f0012_w0000_Probabilities.h5
+chan_untracked = 0;% 0 - cfp cells; 1- nuc marker of other cell type
 direc_tracked  =...
 'E:\allSortingData\80_tp_fortracking_2017-07-14-S4cfpDataset_sorting';
-chan_tracked = 0;
+chan_tracked = 1;
 ifile_tracked =...
-'E:\allSortingData\80_tp_fortracking_2017-07-14-S4cfpDataset_sorting\SortingGFPS4cellspluri70to30_MIP_80tpts_MIP_f0004_w0000_Probabilities.h5';
+'E:\allSortingData\80_tp_fortracking_2017-07-14-S4cfpDataset_sorting\SortingGFPS4cellspluri70to30_MIP_80tpts_MIP_f0012_w0001_Probabilities.h5';
 [untrackedstats,trackedstats,img_untracked,img_tracked]=get_celltypes_statsimages(direc_untracked,ifile_untracked,direc_tracked,ifile_tracked,paramfile,pos,chan_tracked,chan_untracked,ilastikprob);
 % TODO: save this data into file
 
@@ -36,7 +36,7 @@ ifile_tracked =...
 % the sorting happens faster in smaler colonies (f0000 vs f0001 ?)
 close all
 %untrackedstats,trackedstats,img_untracked,img_tracked
-load('SelectedTrackIDsData_f4_chan_w0000.mat','goodtracks');%SelectedTrackIDsData_f12_chan_w0001
+load('SelectedTrackIDsData_f12_chan_w0001.mat','goodtracks');%SelectedTrackIDsData_f12_chan_w0001
 % goodtracks(3)=[];
 % goodtracks(3)=[];
 goodtracks(isnan(goodtracks)) = [];
@@ -51,7 +51,7 @@ counter = 0;
 toplot =0;%
 toplot2 =0;
 x1 = 8;
-x2 = 45; % ideally this is the full track length, but if the tracks were observed to be ...
+x2 = 42; % ideally this is the full track length, but if the tracks were observed to be ...
 % good only untill certain time point, then that is the value of x2
 allcells_speed_inT= struct;
 allcells_local = struct;
@@ -195,7 +195,8 @@ frac_initP = struct;
 pluriV  = struct;
 frac_meanP = struct;
 colormap = jet;
-matfile_str_w1 ={'.mat','.mat'};
+matfile_str_w1 ={'qMotion_f0009_w0001_time_0.25hrs-10.5hrs.mat','qMotion_f00010_w0001_time_0.25hrs-11.25hrs.mat','qMotion_f00011_w0001_time_0.25hrs-11.25hrs.mat','qMotion_f00012_w0001_time_0.25hrs-10.5hrs.mat'};
+%{'qMotion_f0000_w0001_time_0.25hrs-10.75hrs.mat','qMotion_f0001_w0001_time_0.25hrs-11.25hrs.mat'};%,
 colszR =650;
 for q=1:size(matfile_str_w1,2)
 load(matfile_str_w1{q},'x1','delta_t','DiffC','frac_init','allcells_speed_inT','counter','frac_mean','meanspeed_pertrack','x2','allcells_local','totalDispl','untrackedstats','trackedstats','global_nbrhd','allcells_disp_inT');%,'same_neighbor_abs','other_neighbor_abs'
@@ -224,6 +225,7 @@ finMeanVel=[colszR mean(pluriV_all)  std(pluriV_all)];
 %save(['stats_pluri_colR' num2str(colszR) 'um.mat'],'finDiffCoef','finTDisplacement','finMeanVel','frac_initP_all');
 figure(1),histogram(pluriD_all,'binwidth',bnwdth,'normalization','probability','FaceColor','r');hold on%,'binwidth',8
 matfile_str_w0 ={'qMotion_f0009_w0000_time_0.25hrs-11.25hrs.mat','qMotion_f00010_w0000_time_0.25hrs-11.25hrs.mat','qMotion_f00011_w0000_time_0.25hrs-11.25hrs.mat','qMotion_f00012_w0000_time_0.25hrs-11.25hrs.mat'};
+%{'qMotion_f0000_w0000_time_0.25hrs-11.25hrs.mat','qMotion_f0001_w0000_time_0.25hrs-11.25hrs.mat','qMotion_f0002_w0000_time_0.25hrs-11.25hrs.mat'};%,
 diffD = struct;
 meanDisp_diff = struct;
 tracked_time_diff= struct;
@@ -265,8 +267,8 @@ xlabel('Estimated D [um^2/hr]');
 legend(['PLURI cells (' num2str(sz1) ') cells' ],['PRE-DIFF cells (' num2str(sz2) ') cells' ]);
 title('Both inner and edge cells are considered')
 
-figure(20), histogram(meanDisp_pluri_all,'FaceColor','r','normalization','probability','binwidth',15);hold on
-histogram(meanDisp_diff_all,'FaceColor','c','normalization','probability','binwidth',15);ylim([0 0.6]);
+figure(20), histogram(meanDisp_pluri_all,'FaceColor','r','normalization','probability','binwidth',10);hold on
+histogram(meanDisp_diff_all,'FaceColor','c','normalization','probability','binwidth',10);ylim([0 0.6]);
 title('Mean total displacement during tracked motion')
 xlabel('Total displacement,um');ylabel('Frequency')
 legend(['PLURI cells (' num2str(sz1) ') cells' ],['PRE-DIFF cells (' num2str(sz2) ') cells' ]);
@@ -291,12 +293,17 @@ title(['Correlation coefficient for pluri cells ' num2str(cc1) ';  for CFP cells
 %h = kstest2(round(pluriD),round(diffD));
 %h = kstest2(x1,x2) returns a test decision for the null hypothesis that the data in vectors x1 and x2 are from the same continuous distribution, using the two-sample Kolmogorov-Smirnov test. The alternative hypothesis is that x1 and x2 are from different continuous distributions. The result h is 1 if the test rejects the null hypothesis at the 5% significance level, and 0 otherwise.
 %velocities:
-figure(2),histogram(pluriV_all,'FaceColor','r','binwidth',3,'normalization','probability');hold on
-histogram(diffV_all,'FaceColor','c','binwidth',3,'normalization','probability');box on
+figure(2),histogram(pluriV_all,'FaceColor','r','binwidth',2,'normalization','probability');hold on
+histogram(diffV_all,'FaceColor','c','binwidth',2,'normalization','probability');box on
 ylabel('Frequency');ylim([0 1]);
 legend(['PLURI cells (' num2str(sz1) ') cells' ],['PRE-DIFF cells (' num2str(sz2) ') cells' ]);
 xlabel('Mean cell speed (averaged over track length), um/hr');
 title('Average taken over track length');
+figure(57),errorbar(1,mean(pluriV_all),std(pluriV_all),'pr','markersize',12);hold on
+errorbar(2,mean(diffV_all),std(diffV_all),'pc','markersize',12);hold on; box on
+ylabel('Mean cell speed,um/hr')
+legend(['PLURI cells (' num2str(sz1) ') cells' ],['PRE-DIFF cells (' num2str(sz2) ') cells' ]);
+xlim([0 4 ]);ylim([8 25])
 
 figure(56),plot(meanDisp_pluri_all,frac_meanP_all,'rp','Markersize',12,'LineWidth',1.2);hold on ;
 plot(meanDisp_diff_all,frac_meanD_all,'cp','Markersize',12,'LineWidth',1.2);

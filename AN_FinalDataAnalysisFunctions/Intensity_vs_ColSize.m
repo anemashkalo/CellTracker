@@ -1,4 +1,4 @@
-function [rawdata1,err] =  Intensity_vs_ColSize(nms,nms2,dir,index1,param1,dapimax,chanmax,scaledapi,flag)
+function [rawdata1,err] =  Intensity_vs_ColSize(nms,nms2,dir,index1,param1,dapimax,chanmax,dapiscalefactor,flag)
 % plot the average intensity of the marker as a function of colony size
 
 clear tmp
@@ -6,21 +6,10 @@ clear tmp2
 clear tmp3
 clear rawdata
 clear err
-colormap = colorcube;
+colormap = jet;
 rawdata1 = cell(1,size(nms,2));
 err = cell(1,size(nms,2));
-if scaledapi == 1
-for k=1:size(nms2,2)
-[dapi(k),ncells] = getmeandapi(nms(k),dir,index1, dapimax);
-disp(['cells found' num2str(ncells) ]);
-disp(['mean dapi' num2str(dapi(k)) ])
-end
-dapiscalefactor = dapi/dapi(1);
-end
-if scaledapi == 0
-dapiscalefactor = ones(1,size(nms2,2));  
-end
-disp(dapiscalefactor);
+
 for k=1:size(nms,2)
     filename{k} = [dir filesep  nms{k} '.mat'];
     load(filename{k},'plate1');
@@ -40,11 +29,11 @@ for k=1:size(nms,2)
     col = colonies{k};        
      q = 1;
     for ii=1:length(col)
-        a = any(col(ii).data(:,3)>dapimax(1));%%      any(col(ii).data(:,index1(1))>dapimax(1))
-        in = colonies{k}(ii).imagenumbers;
+        a = any(col(ii).data(:,5)>dapimax(1));%%      any(col(ii).data(:,index1(1))>dapimax(1))
+        in = colonies{k}(ii).imagenumbers;% only specific image numbers  
         %b = any(col(ii).data(:,index1(2))>chanmax);      
      
-        if ~isempty(col(ii).data) && (a==0)% only specific image numbers  a==0
+        if ~isempty(col(ii).data) && (a==0)
             nc = col(ii).ncells;            
             totalcolonies(nc)=totalcolonies(nc)+1;
             % totalcells(nc)=totalcells(nc)+nc;
@@ -74,7 +63,7 @@ for k=1:size(nms,2)
     end  
     
     if flag == 1 
-    figure(6);  plot(rawdata(~isnan(rawdata)),'-*','color',colormap(k+2,:),'markersize',15,'linewidth',2); legend(nms2);hold on;%subplot(1,size(nms2,2),k)    
+    figure(6);  plot(rawdata(~isnan(rawdata)),'-p','color',colormap(randi(60),:),'markersize',15,'linewidth',2); legend(nms2);hold on;%subplot(1,size(nms2,2),k)    
     xlabel('Colony size');
     ylabel(['Expression of ',(param1),'marker']);
     xlim([0 8]);%size(rawdata(~isnan(rawdata)),1)

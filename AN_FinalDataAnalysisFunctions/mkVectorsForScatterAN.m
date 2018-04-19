@@ -5,7 +5,7 @@
 % the last vector (d or valuescmap) may be used if the scatter plot needs to
 % be colorcoded by the expression of the index2(3) peaks column.
 
-function [alldata] = mkVectorsForScatterAN(peaks,col,index2,flag,flag2,dapimax,dapiscalefactor)% need to also input the col
+function [alldata] = mkVectorsForScatterAN(peaks,col,index2,flag,flag2,dapimax,dapiscalefactor,ucol)% need to also input the col
  
 
 if flag == 0   % if flag ==0, generate the third column with the colony size that the cell belongs to; necessary if want to colo the scatter plot with col size
@@ -17,8 +17,8 @@ if flag == 0   % if flag ==0, generate the third column with the colony size tha
      a = any(col(ii).data(:,3)>dapimax);
      if a == 0
          ncell = size(col(ii).data,1);
-         if ncell > 7
-             ncell = 7;
+         if ncell > ucol
+             ncell = ucol;
          end         
          if flag2 == 1
              b = col(ii).data(:,index2(1))./(col(ii).data(:,5)/dapiscalefactor);
@@ -45,8 +45,8 @@ if flag == 1      % if flag ==1, generate 2 columns with combined peaks data col
       a = any(col(ii).data(:,3)>dapimax);
       if a == 0
           ncell = size(col(ii).data,1);
-          if ncell > 8
-              ncell = 8;
+          if ncell > ucol
+              ncell = ucol;
           end
           if flag2 == 1
               b = col(ii).data(:,index2(1))./col(ii).data(:,5);

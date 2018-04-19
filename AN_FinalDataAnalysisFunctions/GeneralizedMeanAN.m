@@ -8,17 +8,17 @@
 % see code and description of the MMrunScriptsAN
 
 
-function [newdata] = GeneralizedMeanAN(nms,nms2,dir,midcoord,fincoord,index1,param1,plottype,flag,dapimax, chanmax)
+function [newdata] = GeneralizedMeanAN(nms,nms2,dir,midcoord,fincoord,index1,param1,plottype,flag,dapimax, chanmax,dapiscalefactor)
 dapi= [];
 colormap = prism;
 for k=1:size(nms2,2)
 [dapi(k),ncells] = getmeandapi(nms(k),dir,index1, dapimax);
-disp(['cells found' num2str(ncells) ]);
-disp(['dapi mean value' num2str(dapi(k)) ]);
+% disp(['cells found' num2str(ncells) ]);
+% disp(['dapi mean value' num2str(dapi(k)) ]);
 
 end
-dapiscalefactor = dapi/dapi(1);
-%dapiscalefactor = ones(1,size(nms,2));
+% dapiscalefactor = dapi/dapi(1);
+% %dapiscalefactor = ones(1,size(nms,2));
 disp(dapiscalefactor);
 if plottype == 0
     for k=1:size(nms,2)        % load however many files are in the nms string

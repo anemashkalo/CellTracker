@@ -55,7 +55,7 @@ thresh = [250 300];%cdx2mean 1*ones(1,size(nms2,2))
 m = [];
 err = [];
 ucol = 8;
-if scaledapi == 0
+if scaledapi == 1
 for k=1:size(nms2,2)
 [dapi(k),ncells] = getmeandapi(nms(k),dir,index1, dapimax);
 disp(['cells found' num2str(ncells) ]);

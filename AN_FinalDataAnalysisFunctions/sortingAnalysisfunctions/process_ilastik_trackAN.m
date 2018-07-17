@@ -18,6 +18,11 @@ nT = size(track_mask,3);
 N = 1;%size(img_stats(tp).dat(objID).PixelIdxList,1);
 for ii=1:nT    
     % loop over image objects
+    % disp(ii)
+%    if ii == 12
+%        track_mask(:,:,ii) = track_mask(:,:,11);
+%       % continue
+%    end
     img_stats(ii).dat = regionprops(track_mask(:,:,ii),'Centroid','PixelIdxList');
     for objID = 1:size(img_stats(ii).dat,1)
         %disp(size(img_stats(ii).dat,1))

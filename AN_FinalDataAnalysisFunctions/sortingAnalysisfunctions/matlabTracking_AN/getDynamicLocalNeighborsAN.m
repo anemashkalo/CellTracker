@@ -18,6 +18,8 @@ othertype_neighbor = struct;
 sametype_neighbor = struct;
 fraction_same = struct;
 fraction_other = struct;
+coordinate_same = struct;
+coordinate_other = struct;
 global_neighborhood = struct;% what is the actual ratio of cell types (in the frame,not colony)
 direction = struct;
 displ = struct;
@@ -93,11 +95,14 @@ for h=1:size(totest,1)
     % type2, the rest (nearest-counter) is the other cell type
     tmp = ipdm(totest(h,1:2),allcells_type2(:,1:2),'Result','Structure','Subset','NearestNeighbor');%    
     if tmp.distance == 0
+        coordinate_same(h).xya = totest(h,1:3);% save the coordinate and area of the nearest like cell
         counter = counter+1;        
+    else
+        coordinate_other(h).xya = totest(h,1:3);% save the coordinate and area of the nearest unlike cell
     end
 end
 
-if (jj == 11) && (toplot == 1)%last tp: (tpts-1) or x2
+if (jj == 1) && (toplot == 1)%last tp: (tpts-1) or x2
 %figure(jj),imshow(total_img,[500 1500]);hold on % 
 figure(jj),imshowpair(rawimg1,rawimg);hold on % show both cell types onn one image
 figure(jj),plot(coordintime(totrack).dat(jj,1),coordintime(totrack).dat(jj,2),'kp','MarkerFaceColor','y','MarkerSize',12,'LineWidth',1);hold on%colormap(randcolor,:)

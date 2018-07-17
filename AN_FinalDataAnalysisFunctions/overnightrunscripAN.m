@@ -17,23 +17,26 @@ disp('done');
   
 %% split the ibidi .btfs
 flag = 1;
-MMdirec1 = '/Volumes/TOSHIBAexte/2017-09-21-MiguelAN_trophoblastDiff10bmp10Sb_NanogCdx2p63/pluriControl_4dMT';
-MMdirec2 = '/Volumes/TOSHIBAexte/2017-09-21-MiguelAN_trophoblastDiff10bmp10Sb_NanogCdx2p63/diffControl_2dBmpSb';
-MMdirec3 = '/Volumes/TOSHIBAexte/2017-09-21-MiguelAN_trophoblastDiff10bmp10Sb_NanogCdx2p63/1d_BmpSb_3d_MT';
-MMdirec4 = '/Volumes/TOSHIBAexte/2017-09-21-MiguelAN_trophoblastDiff10bmp10Sb_NanogCdx2p63/2d_BmpSb_2d_MT';
-MMdirec5 = '/Volumes/TOSHIBAexte/2017-09-21-MiguelAN_trophoblastDiff10bmp10Sb_NanogCdx2p63/3d_BmpSb_1d_MT';
-MMdirec6 = '/Volumes/TOSHIBAexte/2017-09-21-MiguelAN_trophoblastDiff10bmp10Sb_NanogCdx2p63/4d_BmpSb';
+MMdirec1 = 'E:\allSortingData\2018-04-18-EcadNcad_8wellDGRCchan\betaCat_Diff_Ecad';
+MMdirec2 = 'E:\allSortingData\2018-04-18-EcadNcad_8wellDGRCchan\betaCat_Diff_Ncad';
+MMdirec3 = 'E:\allSortingData\2018-04-18-EcadNcad_8wellDGRCchan\betaCat_Pluri_Ecad';
+MMdirec4 = 'E:\allSortingData\2018-04-18-EcadNcad_8wellDGRCchan\betaCat_Pluri_Ncad';
+MMdirec5 = 'E:\allSortingData\2018-04-18-EcadNcad_8wellDGRCchan\esiDiff_betacatPluri_Ecad';
+MMdirec6 = 'E:\allSortingData\2018-04-18-EcadNcad_8wellDGRCchan\esiDiff_betacatPluri_Ncad';
+MMdirec7 = 'E:\allSortingData\2018-04-18-EcadNcad_8wellDGRCchan\esiPluri_betacatDiff_Ecad';
+MMdirec8 = 'E:\allSortingData\2018-04-18-EcadNcad_8wellDGRCchan\esiPluri_betacatDiff_Ncad';
 
-
-fn= {'Control_4dMT.btf','CDX2posControl_2dBmpSb.btf','1dBmpSb_3dMT.btf','2dBmpSb_2dMT.btf','3dBmpSb_1dMT.btf','BmpSb_4dMT.btf'};
+fn= {'betaCat_Diff_Ecad.btf','betaCat_Diff_Ncad.btf','betaCat_Pluri_Ecad.btf'...
+    ,'betaCat_Pluri_Ncad.btf','esiDiff_betacatPluri_Ecad.btf','esiDiff_betacatPluri_Ncad.btf'...
+    ,'esiPluri_betacatDiff_Ecad.btf','esiPluri_betacatDiff_Ncad.btf'};
 chan = {'DAPI','GFP','RFP','CY5'};% 
-mm = {MMdirec1,MMdirec2,MMdirec3,MMdirec4,MMdirec5,MMdirec6};
-trophlikediffRotation2017 = cell(1,size(mm,2));
+mm = {MMdirec1,MMdirec2,MMdirec3,MMdirec4,MMdirec5,MMdirec6,MMdirec7,MMdirec8};
+cellAdhmol = cell(1,size(mm,2));
 for k=1:size(mm,2)
-   trophlikediffRotation2017{k} = templateSplitOlympData(mm{k},chan,fn{k},flag);
+   cellAdhmol{k} = templateSplitOlympData(mm{k},chan,fn{k},flag);
 end
 disp('split and saved all');
-save('trophlikediffRotation2017');
+save('cellAdhmol');
 
 %% run colony grouping only 
 

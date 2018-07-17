@@ -96,7 +96,7 @@ for totrack = trackID%
                 h.CurrentAxes.LineWidth = 2;
                 h.CurrentAxes.FontSize = 10;
                 h.CurrentAxes.XTick = 1:7:good_tp;
-                h.CurrentAxes.XTickLabel = (1:7:good_tp)*delta_t/60;
+                h.CurrentAxes.XTickLabel = round((1:7:good_tp)*delta_t/60);
                 xlabel('Time,hours');%
                 ylabel('Mean Squared Displacement, um^2')%/hour
                 tmp4 = cat(1,msd.dat);

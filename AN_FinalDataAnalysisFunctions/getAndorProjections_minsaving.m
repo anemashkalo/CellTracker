@@ -1,19 +1,19 @@
 
-% get max projections from minimum files Andor saving
+% get max projections from minimum files Andor saving, merge all time
+% groups
 
-direc = '/Volumes/TOSHIBAexte/2017-09-25-liveSortingwithRegistration/sorting_70to30_register_43hrs/sortS4_CFP_70to30_first21hr_20170924_123851 PM';
-direc = '/Volumes/TOSHIBAexte/2017-09-25-liveSortingwithRegistration/sorting_70to30_register_43hrs/sortS4_CFP_70to30_21to43hr_20170924_123851 PM/sortS4_CFP_70to30_21to43hr_20170924_10400 PM';
+direc = 'E:\allSortingData\2018-04-18-liveSorting70to30CFPpluriS4diff\LiveSort_7030_cfpPluri_Smad4diff_20180418_125959 PM';
 
-direc2save = '/Volumes/TOSHIBAexte/2017-09-25-liveSortingwithRegistration/MIPs';
+direc2save = 'E:\allSortingData\2018-04-18-liveSorting70to30CFPpluriS4diff\MIP_alltimes';
 ff = readAndorDirectory(direc);
 %ff1 = readAndorDirectory(direc2); 
-for pos = ff.p(2):ff.p(end);
-time = [0 1];
+for pos = ff.p(1)%:ff.p(end);
+time = [0 1 2];
 z = [];
-for xx =1:3;
+for xx =1%;
 filename1 = getAndorFileName(ff,pos,time(1),z,ff.w(xx));
 filename2 = getAndorFileName(ff,pos,time(2),z,ff.w(xx));
-%filename3 = getAndorFileName(ff,pos,time(3),z,ff.w(xx));
+filename3 = getAndorFileName(ff,pos,time(3),z,ff.w(xx));
 
 r1 = bfGetReader(filename1);
 r2 = bfGetReader(filename2);

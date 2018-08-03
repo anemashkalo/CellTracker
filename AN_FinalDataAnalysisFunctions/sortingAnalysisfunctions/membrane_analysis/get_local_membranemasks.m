@@ -1,4 +1,4 @@
-function [seprate_membrane_intensity_all,seprate_membrane]=get_local_membranemasks(nuc_dat1,nuc_dat2,binary_mask,seprate_mask2_clean,binary_mask1,nbrh_pxl_sz,im_bkgd_subtracted,local2)
+function [seprate_membrane_intensity_all,seprate_membrane_all]=get_local_membranemasks(nuc_dat1,nuc_dat2,binary_mask,seprate_mask2_clean,binary_mask1,nbrh_pxl_sz,im_bkgd_subtracted,local2)
 seprate_membrane_intensity_all=struct;
 seprate_membrane_all=struct;
 

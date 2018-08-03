@@ -13,7 +13,7 @@ celltype2 = cat(2,nuc_dat2(ii).xy, cellID2);%
 like_cells=[];
 unlike_cells=[];
 for cellID=1:size(celltype2,1)% will need to loop over cells
-[like_cells,unlike_cells,no_neighbors] = find_neighbors_simulation(cellID,celltype2,celltype1,nbrh_pxl_sz);
+[like_cells,unlike_cells,no_neighbors] = find_neighbors_simulation(cellID,celltype1,celltype2,nbrh_pxl_sz);% no need to flip here
 % the cellID is from the cell type that follows this argument (cells from
 % celltype1) in this case
 disp(cellID)

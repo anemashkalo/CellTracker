@@ -29,7 +29,7 @@ newImg = binary_mask(ii).dat & T_2; % pixels of the membrane mask that are only 
 stats = regionprops(newImg,im_bkgd_subtracted(ii).im,'MeanIntensity');
 seprate_membrane_intensity(cellID).int = mean(cat(1,stats.MeanIntensity));
 seprate_membrane(cellID).maks = newImg;
-if mod(cellID,80) == 0
+if mod(cellID,40) == 0
 figure(2),imshowpair(combine_masks(ii).binary,newImg);hold on
 figure(2),plot(celltype2(cellID,1),celltype2(cellID,2),'pb','MarkerFaceColor','b'); hold on
 if ~isempty(local2(ii).dat(cellID).same)

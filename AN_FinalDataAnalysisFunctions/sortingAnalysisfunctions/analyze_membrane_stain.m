@@ -1,5 +1,5 @@
 %% process membrane fluorescnece from singleimages and ilastic masks
-maxproj_dir = 'C:\Users\Nastya\Desktop\RiceResearch\2017-10-04-REMOTE_WORK\2018-07-31-EcadReporterYFPwithbetacatRFP_liveimaging\MaxProjections';
+maxproj_dir = 'C:\Users\Nastya\Desktop\RiceResearch\2017-10-04-REMOTE_WORK\2018-08-08-analyzeBetaCatecadMembranes_fromMovies';
 %maxproj_dir = 'C:\Users\Nastya\Desktop\RiceResearch\2017-10-04-REMOTE_WORK\2018-04-18-EcadNcad_representative\max_proj_bychannel_betaCatcells_CY5ecad';
 ff = dir(maxproj_dir);
 all_h5 = struct;
@@ -8,7 +8,7 @@ mask_out_h5 = struct;
 mask_out = struct;
 q = 1;
 for ii =1:size(ff,1)    
-    if ~isdir(ff(ii).name) && ~isempty(strfind(ff(ii).name,'_CY5_Probabilities.h5'))
+    if ~isdir(ff(ii).name) && ~isempty(strfind(ff(ii).name,'1_Probabilities.h5'))
         disp(['loading: ' num2str(ff(ii).name)])
         all_h5(q).file = ff(ii).name; 
 membrane_mask(q).raw =all_h5(q).file;
@@ -20,7 +20,8 @@ end
 end
 
 %%
-prob_thresh = 0.85;
+close all
+prob_thresh = 0.8;
 binary_mask = struct;
 small_stuff = 60;
 for jj=1:size(mask_out,2)
@@ -29,7 +30,7 @@ binary_mask(jj).dat = mask_out(jj).mask >prob_thresh;
 % filter area
 binary_mask(jj).dat = bwareaopen(binary_mask(jj).dat,small_stuff)';% ilastik returns transposed image, need to T back
 %figure,imshowpair(mask_out(jj).mask(:,:)',binary_mask(jj).dat);
-%figure,imshow(binary_mask(jj).dat,[]);
+figure,imshow(binary_mask(jj).dat,[]);
 end
 %% subtract background and quntify fluorescence
 close all
@@ -57,27 +58,32 @@ mean_ecad(ii,1) = mean(dat(ii).ecadlevels);%./dat(ii).area
 err_ecad(ii,1) = std(dat(ii).ecadlevels);
 end
 prob_thresh_membr = prob_thresh;
-%save('MembraneEcad_quantification_BetaCatMembrane','dat','newstr','binary_mask','prob_thresh_membr','im_bkgd_subtracted');
+%save('MembraneStain_quantification_BetaCat','dat','newstr','binary_mask','prob_thresh_membr','im_bkgd_subtracted');
 %%
+
 close all
 str = cell(1,size(all_h5,2));
-%str ={'betaCat prediff only','betaCat pluri only','betaCat pluri, esi diff','betaCat diff, esi pluri'};
+pos_indx = strfind(all_h5(1).file,'_f00');
+pos = all_h5(1).file(pos_indx+1:pos_indx+5);
+
+str ={'02 hrs','10 hrs','1 hr'};
 for ii =1:size(all_h5,2) 
-figure(ii+1), histogram(dat(ii).ecadlevels,'binwidth',500,'normalization','probability'); hold on
-legend(str{ii});box on
+figure(2), histogram(dat(ii).ecadlevels,'binwidth',200,'normalization','probability'); hold on
+ylim([0 0.5]);ylabel('Frequency'); xlabel('Beta-catening in membranes (reporter cells)')
 end
-figure(1), plot(mean_ecad,'kp','MarkerSize',12,'MarkerFaceColor','m'); box on
+title(['Sorting on micropattern, beta-cat cells pluri; position : ' num2str(pos) ]);
+legend(str);box on
+vect_x = [0.2 10 1]; % order in which images are read (should be not problem unless they are named not as consecutive time points)
+figure(1), plot(vect_x,mean_ecad,'kp','MarkerSize',12,'MarkerFaceColor','m'); box on
 h = figure(1);
-h.CurrentAxes.XLim = [0 size(all_h5,2)+1];
+h.CurrentAxes.XLim = [0 max(vect_x)+1];
 h.CurrentAxes.YLim = [0 max(mean_ecad)+500];%
-h.CurrentAxes.XTick = [1:size(all_h5,2)];
+h.CurrentAxes.XTick = sort(vect_x);
 h.CurrentAxes.LineWidth = 2;
 h.CurrentAxes.FontSize = 12;
-% h.CurrentAxes.XTickLabel={'betaCat prediff only','betaCat pluri only','betaCat pluri, esi diff','betaCat diff, esi pluri'};
-h.CurrentAxes.XTickLabelRotation = -25;
-%title('Fixed after 30 hrs of sorting')
-%ylabel('Membrane Beta-catenin in reporter cells, a.u.')
-% xlabel('Time after mixing the two cell types or unmixed fixation time')
-
-
+h.CurrentAxes.XTickLabel={'02','1','10'};
+%h.CurrentAxes.XTickLabelRotation = -25;
+ylabel('Membrane Beta-catenin in reporter cells, a.u.')
+xlabel('Sorting time,hrs')
+title(['Sorting on micropattern, beta-cat cells pluri; position : ' num2str(pos) ]);
 

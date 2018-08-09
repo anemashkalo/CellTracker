@@ -6,7 +6,7 @@ clear all; %close all;
 %dataDir = '/Users/warmflashlab/Desktop/A_NEMASHKALO_Data_and_stuff/9_LiveCllImaging/2017-02-10-BMP4wellwithSB39hrs';% saved the projections and ilastic output in a diff. dir
 
 %dataDir = '/Volumes/TOSHIBAexte/2017-07-14-Smad4sorting_maxProjections';
-dataDir  = 'E:\allSortingData\2017-07-05-liveSortingMaxProjections_betaCatPluri';%
+dataDir  = 'E:\allSortingData\2018-04-18-liveSorting70to30CFPpluriS4diff\MIP_midsorting_13to26hrs';%
 
 ff = readAndorDirectory(dataDir);
  %meta = MetadataAndor(dataDir);
@@ -16,8 +16,8 @@ ff = readAndorDirectory(dataDir);
 
 % returned by MetadataAndor on good directory
 % for Laser Scanning data manually fill this structure in:             
-                meta.tPerFile = 168;
-                meta.filename='SortingBetaCatpluri_MIP_f%.4d_w%.4d.tif';   %Feb3LSCimgingMIP  Feb10imgingTP8to120MIP Feb10imgingTP1to7MIP
+                meta.tPerFile = 66;
+                meta.filename='LiveSort_7030_cfpPluri_Smad4diff_hr13.4to26.6_MIP_f%.4d_w%.4d.tif';   %Feb3LSCimgingMIP  Feb10imgingTP8to120MIP Feb10imgingTP1to7MIP
 %                     meta.xres= 0.3250;
 %                     meta.yres= 0.3250;
 %                    meta.xSize= 1024;
@@ -27,7 +27,7 @@ ff = readAndorDirectory(dataDir);
             meta.channelNames= {'Confocal 561'  'Confocal 488'};
     meta.excitationWavelength= [];
             meta.channelLabel= [];
-                   meta.nTime= 168;
+                   meta.nTime= 66;
             meta.timeInterval= '15 min';
               meta.nPositions= 18;
           meta.montageOverlap= [];
@@ -44,8 +44,8 @@ meta.conditions = {'A','A', 'B', 'B',...
               'B+'};
 % SET THIS TO TRUE IF MAKING AN '8-well' LOOP THROUGH A 4-WELL
 loop4well = true;
-nucChannel = 1;
-S4Channel = 2;
+nucChannel = 2;
+S4Channel = 3;
 %tmax = meta.nTime;
 tmax = meta.nTime;
  
@@ -83,7 +83,7 @@ pi =2;%11
 % str = getAndorFileName(ff,ff.p(pi),[],0,0);
 % meta.filename  = str(end-32:end);
 P = DynamicPositionAndor(meta, pi);
-time = 2;
+time = 1;
 opts.tMax = time;
 % try out the nuclear cleanup settings on some frame:
 % bla = nuclearCleanup(seg(:,:,time), opts.cleanupOptions);
@@ -99,8 +99,7 @@ cytmask(cat(1,debugInfo.cytCC.PixelIdxList{:}))=true;
 bg = P.cellData(time).background;
 nucl = P.cellData(time).nucLevelAvg;
 cytl = P.cellData(time).cytLevelAvg;
-(nucl-bg)/(cytl - bg);
-(nucl-bg)
+(nucl-bg)/(cytl - bg)
 (nucl)/(cytl);
 im = P.loadImage(dataDir,S4Channel, time);%nucChannel S4Channel
 MIP = max(im,[],3);
@@ -119,6 +118,6 @@ for pi = 2%1:(meta.nPositions)
     positions(pi) = DynamicPositionAndor(meta, pi);
     positions(pi).extractData(dataDir, nucChannel, opts);
     positions(pi).makeTimeTraces();
-    save(fullfile('.','Sorting_betaCat_esiCFP'), 'positions');
+    save(fullfile('.','20180418CFPpluriS4diff_13to26hrs'), 'positions');
 end
 toc

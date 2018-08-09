@@ -1,12 +1,12 @@
 % direc = directory with raw images
 direc = 'C:\Users\Nastya\Desktop\RiceResearch\2017-10-04-REMOTE_WORK\2018-07-31-EcadReporterYFPwithbetacatRFP_liveimaging';
 % direc2save = where to save the max. projections
-direc2save = 'C:\Users\Nastya\Desktop\RiceResearch\2017-10-04-REMOTE_WORK\2018-07-31-EcadReporterYFPwithbetacatRFP_liveimaging';%\MaxProjections
+direc2save = 'C:\Users\Nastya\Desktop\RiceResearch\2017-10-04-REMOTE_WORK\2018-07-31-EcadReporterYFPwithbetacatRFP_liveimaging\MaxProjections';%\MaxProjections
 ff = readAndorDirectory(direc);
 delta_t = 30;% time interval between the frames in a given movie
 totest = [ff.p];% which positions in the folder will be processed to make max projections 
 tgroup = 0;
-chan1 =[1 2];
+chan1 =[1];
 
 for ii = 1:size(totest,2)
     pos = totest(ii);

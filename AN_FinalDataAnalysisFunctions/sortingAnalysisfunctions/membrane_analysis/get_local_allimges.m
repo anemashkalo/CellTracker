@@ -13,11 +13,11 @@ celltype2 = cat(2,nuc_dat2(ii).xy, cellID2);%
 like_cells=[];
 unlike_cells=[];
 for cellID=1:size(celltype2,1)% will need to loop over cells
-[like_cells,unlike_cells,no_neighbors] = find_neighbors_simulation(cellID,celltype1,celltype2,nbrh_pxl_sz);% no need to flip here
+[like_cells,unlike_cells,no_neighbors] = find_neighbors_simulation(cellID,celltype2,celltype1,nbrh_pxl_sz);% no need to flip here
 % the cellID is from the cell type that follows this argument (cells from
 % celltype1) in this case
 disp(cellID)
-if mod(cellID,50)==0
+if mod(cellID,cellID)==0
 combine_masks(ii).binary = seprate_mask2_clean(ii).dat + binary_mask1(ii).dat;
 figure(2),imshowpair( seprate_mask2_clean(ii).dat,binary_mask1(ii).dat);hold on
 if ~isempty(like_cells)
@@ -28,7 +28,7 @@ if ~isempty(unlike_cells)
 figure(2),plot(unlike_cells(:,1),unlike_cells(:,2),'*r'); hold on
 title('Masks for each cell type separately')
 end
-figure(2),imshowpair(combine_masks(ii).binary,binary_mask(ii).dat);hold on
+figure(2),%imshowpair(combine_masks(ii).binary,binary_mask(ii).dat);hold on
 plot(celltype2(cellID,1),celltype2(cellID,2),'pb','MarkerFaceColor','b'); hold on
 % plot(like_cells(:,1),like_cells(:,2),'*b'); hold on
 % plot(unlike_cells(:,1),unlike_cells(:,2),'*r'); hold on

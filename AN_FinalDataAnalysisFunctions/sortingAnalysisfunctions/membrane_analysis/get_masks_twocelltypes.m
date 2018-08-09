@@ -20,6 +20,8 @@ mask1_out_h5(q).raw = h5read(nuc_mask1(q).raw,'/exported_data');
 nuc_lbl = 2;
 mask_out1(q).mask = squeeze(mask1_out_h5(q).raw(nuc_lbl,:,:));
 q = q+1;
+    else
+        disp('no files with specified string found within the folder')
     end
 if ~isdir(ff(ii).name) && ~isempty(strfind(ff(ii).name,str_type2))
         disp(['loading: ' num2str(ff(ii).name)])
@@ -27,7 +29,7 @@ if ~isdir(ff(ii).name) && ~isempty(strfind(ff(ii).name,str_type2))
 nuc_mask2(s).raw =all_h5_type2(s).file;
 mask2_out_h5(s).raw = h5read(nuc_mask2(s).raw,'/exported_data');
 nuc_lbl = 2;
-mask_out2(s).mask = squeeze(mask2_out_h5(s).raw(nuc_lbl,:,:));
+mask_out2(s).mask = squeeze(mask2_out_h5(s).raw(nuc_lbl,:,:,1));%remove 4th dimention
 s = s+1;
     end
 end

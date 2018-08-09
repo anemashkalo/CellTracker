@@ -47,7 +47,7 @@ seprate_membrane_intensity(cellID).int = mean(cat(1,stats.MeanIntensity));
 membrane_interface(q).homotypic = seprate_membrane_intensity(cellID).int;
 q=q+1;
 % look at the membrane that was selected
-if mod(cellID,50) == 0   
+if mod(cellID,20) == 0   
     %,'ColorChannels','red-cyan'  'blend'
 figure(3), imshowpair(img,(newImg_tmp+seprate_membrane_all(ii).dat(cellID).maks),'method','falsecolor');hold on%  img seprate_membrane(cellID).maks
  plot(celltype2(:,1),celltype2(:,2),'c.','MarkerSize',7); hold on
@@ -86,7 +86,7 @@ membrane_interface(s).heterotypic = seprate_membrane_intensity(cellID).int;
 s=s+1;    
 % look at the membrane that was selected for given cell 
 %newImg_tmp_crop = imcrop(newImg_tmp,[(round(celltype2(cellID,1))-shift(1)) (round(celltype2(cellID,2))-shift(2)) sz_crop(1) sz_crop(2)]);
-if mod(cellID,50) == 0    
+if mod(cellID,20) == 0    
 figure(3), imshowpair(img,(newImg_tmp+seprate_membrane_all(ii).dat(cellID).maks),'method','falsecolor');hold on%seprate_membrane(cellID).maks
 plot(celltype2(:,1),celltype2(:,2),'c.','MarkerSize',7); hold on
 plot(celltype1(:,1),celltype1(:,2),'r.','MarkerSize',7); hold on
